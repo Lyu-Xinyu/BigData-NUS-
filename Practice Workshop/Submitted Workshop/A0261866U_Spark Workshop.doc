@@ -1,0 +1,60 @@
+# 1. Retrieve all data from the Movies table.
+from pyspark import SparkContext, SparkConf
+from pyspark.sql import *
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+
+def main():
+    cnfg = SparkConf().setAppName("MovieApplication").setMaster("local[2]")
+    sc = SparkContext(conf=cnfg)
+    spark = SparkSession(sc)
+
+    inputFilePath = "BEAD_DATA/Movies.csv"
+
+    df = ( spark.read
+    .option("header", "true")
+    .option("inferSchema", "true")
+    .csv(inputFilePath) )
+    df.show()
+	
+# 2. Retrieve all Movies and display the data in ascending order of Movie Title.
+    df.orderBy("MovieTitle").show()
+	
+# 3. Retrieve all R rated movies. You should display only the Video Code, Movie Title, and Movie Type.
+    df.filter("Rating = 'R'").select("VideoCode","MovieTitle","MovieType").show()
+	
+# 4. Retrieve all Science Fiction movies produced by Warner.
+    df.where("MovieType = 'Sci-fi' AND ProducerID = 'Walt'").show()
+	
+# 5. Determine the average rental price of all movies. Explore the variance, standard deviation and skewness of this population.
+    df.agg(avg("RentalPrice")).show-
+	
+# 6. Find the total stock of movies grouped by Movie Type and Rating (two fields).
+    df.groupBy("MovieType", "Rating").sum("TotalStock").show()
+	
+# Use the RollUp function and build the cube function to determine the dimensional totals for the above grouping.
+    df.rollup("MovieType", "Rating").sum("TotalStock").show()
+
+# 7. Read data from the JSON file Producers.JSON and display all records.
+    inputFilePath2 = "BEAD_DATA/Producers.json"
+
+    df2 = (spark.read
+        .option("header", "true")
+        .option("inferSchema", "true")
+        .json(inputFilePath2))
+　　df2.show()
+　　
+	
+# 8. Modify the above query to display those producers who are located in UK.
+    df2.filter("Location = 'UK'").show()
+	
+# 9. Read the Movies.CSV into a Dataframe and write it as a JSON format file. Open Json file to observe the conversion schema.
+#    df.write.json("C:/Users/27425/Desktop/Big Data/Practice Workshop/BEAD_DATA/Movie")
+
+# 10. Retrieve all movies produced by Walt Disney Studios. You should display the Producer Name, Location, Movie Title and Movie Type. (Note: The first two fields are from Producer.JSON and
+# the other two fields are from Movies.CSV. The join field is ProcuderCode field. If you have issues, you may change ProducerID column in the CSV to same as in JSON, viz. ProducerCode)
+    cond = [df.ProducerID == df2.ProducerCode]
+    df.join(df2, cond).select(df2.ProducerName, df2.Location, df.MovieTitle, df.MovieType).where("ProducerName = 'Walt Disney Studio'").show()
+
+if __name__ == '__main__':
+    main()
