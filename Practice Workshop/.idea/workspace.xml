@@ -18,7 +18,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Python Scripts and Data/BEAD_DATA" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="2K9sNRGYW5s59EWDjYzhnM2YniT" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -139,10 +139,10 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.Practice" />
-      <item itemvalue="Python.Day3 Workshop" />
-      <item itemvalue="Python.Day3 Workshop-1" />
       <item itemvalue="Python.Day3 Workshop - Exercise" />
+      <item itemvalue="Python.Day3 Workshop-1" />
+      <item itemvalue="Python.Day3 Workshop" />
+      <item itemvalue="Python.Practice" />
       <item itemvalue="Python.WS10_Q2" />
     </list>
     <recent_temporary>
